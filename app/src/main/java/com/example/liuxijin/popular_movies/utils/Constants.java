@@ -5,5 +5,5 @@ package com.example.liuxijin.popular_movies.utils;
  */
 
 public class Constants {
-    final public static String API_KEY = "";
+    public final static String API_KEY = "";
 }

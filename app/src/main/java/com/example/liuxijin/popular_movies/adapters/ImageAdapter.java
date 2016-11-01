@@ -43,9 +43,10 @@ public class ImageAdapter extends BaseAdapter {
                 .with(mContext)
                 .load(urls[position])
                 .resize(400, 600)
-                .centerCrop()
+               // .centerCrop()
                 .into(view);
 
+        view.setScaleType(ImageView.ScaleType.FIT_XY);
         return view;
     }
 

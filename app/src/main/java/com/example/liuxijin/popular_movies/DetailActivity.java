@@ -21,10 +21,9 @@ public class DetailActivity extends AppCompatActivity implements IMovieDetail{
         Log.i("setMovie", movie.toString());
 
         ImageView imageView = (ImageView) findViewById(R.id.poster);
+        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
         Picasso.with(this)
                 .load(mMovie.getPoster_url())
-                .fit()
-                .centerCrop()
                 .into(imageView);
 
         ((TextView) findViewById(R.id.movie_title)).setText(mMovie.getTitle());
@@ -38,7 +37,7 @@ public class DetailActivity extends AppCompatActivity implements IMovieDetail{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        this.setTitle("Movie Detail");
+        this.setTitle(getString(R.string.title_detail));
         String movieId = getIntent().getStringExtra(getString(R.string.movie_id));
         Movie movie = Movie.getFromCache(movieId);
         if (movie == null) {

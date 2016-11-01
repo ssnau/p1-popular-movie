@@ -7,16 +7,26 @@
     android:orientation="vertical"
     tools:context="com.example.liuxijin.popular_movies.DetailActivity">
 
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
     <ImageView
         android:id="@+id/poster"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="450dp"
         />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:paddingRight="5dp"
-        android:paddingLeft="5dp"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
         android:orientation="vertical"
         android:layout_height="wrap_content">
 
@@ -24,6 +34,7 @@
             android:layout_width="match_parent"
             android:layout_gravity="left"
             android:orientation="horizontal"
+            android:paddingBottom="5dp"
             android:layout_height="wrap_content">
             <LinearLayout
                 android:layout_width="match_parent"
@@ -32,8 +43,8 @@
                 android:layout_height="wrap_content">
                 <TextView
                     android:id="@+id/movie_title"
-                    android:textSize="24dp"
-                    android:textColor="#000000"
+                    android:textSize="24sp"
+                    android:textColor="@color/gray"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
@@ -43,14 +54,14 @@
                     android:layout_height="wrap_content" />
             </LinearLayout>
 
-                <TextView
-                    android:id="@+id/rate_average"
-                    android:textSize="34dp"
-                    android:minWidth="200dp"
-                    android:gravity="right"
-                    android:layout_weight="2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/rate_average"
+                android:textSize="34sp"
+                android:minWidth="200dp"
+                android:gravity="right"
+                android:layout_weight="2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
@@ -61,6 +72,10 @@
 
 
     </LinearLayout>
+</LinearLayout>
+
+    </ScrollView>
+
 
 
 

@@ -1,8 +1,11 @@
 package com.example.liuxijin.popular_movies;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.liuxijin.popular_movies.adapters.ImageAdapter;
@@ -33,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     SORT_TYPE sortType = POPULARITY;
     ArrayList<Movie> movies = new ArrayList<>();
     ImageAdapter imageAdapter;
+    GridView gridView;
+    ImageView networkView;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -66,13 +72,22 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         dialog.show();
     }
 
+    private Boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        this.setTitle("Popular Movies");
-        if (Constants.API_KEY.equals("")) showSimpleDialog("Please Fill API_KEY in Constants.java first!");
-        GridView gridView = ((GridView) findViewById(R.id.main_grid));
+        this.setTitle(getString(R.string.title_main));
+        if (Constants.API_KEY.equals("")) showSimpleDialog(getString(R.string.api_key_warning));
+        gridView = ((GridView) findViewById(R.id.main_grid));
+        networkView = ((ImageView) findViewById(R.id.no_network));
         imageAdapter = new ImageAdapter(this);
         gridView.setAdapter(imageAdapter);
         gridView.setOnItemClickListener(this);
@@ -95,16 +110,29 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
         if (sortType != oldType) {
             fetchMovies();
-            Toast.makeText(this, "Fetching Movies", Toast.LENGTH_SHORT).show();
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    private void toast(String string) {
+        Toast.makeText(this, string, Toast.LENGTH_SHORT).show();
+
+    }
+
     private void fetchMovies() {
-        MovieListTask mft = new MovieListTask();
-        mft.setMovieList(this);
-        mft.execute(sortType);
+        if (isNetworkAvailable()) {
+            MovieListTask mft = new MovieListTask();
+            mft.setMovieList(this);
+            mft.execute(sortType);
+            gridView.setVisibility(View.VISIBLE);
+            networkView.setVisibility(View.INVISIBLE);
+            toast(getString(R.string.fetching_movies));
+        } else {
+            gridView.setVisibility(View.INVISIBLE);
+            networkView.setVisibility(View.VISIBLE);
+            toast(getString(R.string.no_network));
+        }
     }
 
     @Override
@@ -121,6 +149,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         for (Movie movie : movies) {
             strings.add(movie.getPoster_url());
         }
+
         imageAdapter.updateURLs(strings.toArray(new String[strings.size()]));
 
     }

@@ -5,4 +5,13 @@
 
 
     <string name="movie_id">movie_id</string>
+
+    <!-- title -->
+    <string name="title_main">Popular Movies</string>
+    <string name="title_detail">Movie Detail</string>
+
+
+    <string name="no_network">No network connection</string>
+    <string name="fetching_movies">Fetching Movies</string>
+    <string name="api_key_warning">"Please Fill API_KEY in Constants.java first!"</string>
 </resources>
